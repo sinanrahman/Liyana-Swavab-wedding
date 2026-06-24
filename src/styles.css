@@ -1,0 +1,194 @@
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-gold: var(--gold);
+  --color-crimson: var(--crimson);
+  --color-ivory: var(--ivory);
+  --font-display: var(--font-display);
+  --font-body: var(--font-body);
+  --font-label: var(--font-label);
+  --font-script: var(--font-script);
+  --font-arabic: var(--font-arabic);
+}
+
+:root {
+  --radius: 0.5rem;
+  /* Royal Crimson Islamic Luxury */
+  --background: #f5ece7;
+  --foreground: #2a0f12;
+  --card: #fffaf7;
+  --card-foreground: #2a0f12;
+  --primary: #8b1e2d;
+  --primary-foreground: #fffaf7;
+  --secondary: #c8a27a;
+  --secondary-foreground: #2a0f12;
+  --muted: #ece1d8;
+  --muted-foreground: #7a5c56;
+  --accent: #c8a27a;
+  --accent-foreground: #2a0f12;
+  --border: rgba(200, 162, 122, 0.25);
+  --input: rgba(200, 162, 122, 0.3);
+  --ring: #8b1e2d;
+
+  --crimson: #8b1e2d;
+  --gold: #c8a27a;
+  --ivory: #fffaf7;
+
+  --font-display: 'Cormorant Garamond', serif;
+  --font-body: 'EB Garamond', serif;
+  --font-label: 'Cinzel', serif;
+  --font-script: 'Great Vibes', cursive;
+  --font-arabic: 'Amiri', serif;
+}
+
+.dark {
+  --background: #1a0708;
+  --foreground: #f5ece7;
+  --card: #2a0f12;
+  --card-foreground: #f5ece7;
+  --primary: #c8a27a;
+  --primary-foreground: #2a0f12;
+  --secondary: #8b1e2d;
+  --secondary-foreground: #f5ece7;
+  --muted: #2a0f12;
+  --muted-foreground: #c8a27a;
+  --accent: #8b1e2d;
+  --accent-foreground: #f5ece7;
+  --border: rgba(200, 162, 122, 0.2);
+  --input: rgba(200, 162, 122, 0.2);
+  --ring: #c8a27a;
+}
+
+@layer base {
+  * { border-color: var(--color-border); }
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-body);
+    background-image:
+      radial-gradient(circle at 20% 30%, rgba(200, 162, 122, 0.06), transparent 50%),
+      radial-gradient(circle at 80% 70%, rgba(139, 30, 45, 0.04), transparent 50%);
+  }
+  h1, h2, h3, h4 { font-family: var(--font-display); }
+}
+
+/* Decorative parchment card */
+.parchment-card {
+  position: relative;
+  background: var(--ivory);
+  border: 1px solid rgba(200, 162, 122, 0.16);
+  border-radius: 0.75rem;
+  box-shadow: 0 30px 80px -30px rgba(139, 30, 45, 0.15), 0 2px 8px rgba(42, 15, 18, 0.05);
+  overflow: hidden;
+}
+.parchment-card::before {
+  content: '';
+  position: absolute;
+  inset: 12px;
+  border: 0.5px solid rgba(200, 162, 122, 0.1);
+  border-radius: 0.5rem;
+  pointer-events: none;
+  z-index: 1;
+}
+.parchment-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(110deg, transparent 35%, rgba(255, 250, 247, 0.55) 50%, transparent 65%);
+  background-size: 220% 100%;
+  animation: shimmer 16s linear infinite;
+  pointer-events: none;
+  opacity: 0.35;
+  z-index: 0;
+}
+.parchment-card > * { position: relative; z-index: 2; }
+
+@keyframes shimmer {
+  0% { background-position: 220% 0; }
+  100% { background-position: -220% 0; }
+}
+
+.corner-ornament {
+  position: absolute;
+  width: 48px;
+  height: 48px;
+  pointer-events: none;
+  z-index: 3;
+  color: var(--gold);
+  opacity: 0.7;
+}
+.corner-ornament.tl { top: 8px; left: 8px; }
+.corner-ornament.tr { top: 8px; right: 8px; transform: scaleX(-1); }
+.corner-ornament.bl { bottom: 8px; left: 8px; transform: scaleY(-1); }
+.corner-ornament.br { bottom: 8px; right: 8px; transform: scale(-1, -1); }
+
+.countdown-num {
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-size: clamp(40px, 8vw, 64px);
+  color: var(--crimson);
+  font-variant-numeric: tabular-nums;
+  text-shadow: 0 0 18px rgba(200, 162, 122, 0.35), 0 2px 12px rgba(139, 30, 45, 0.15);
+  line-height: 1;
+  letter-spacing: 0.02em;
+}
+.countdown-label {
+  font-family: var(--font-label);
+  font-size: 0.7rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--muted-foreground);
+}
+
+.btn-wa {
+  background: linear-gradient(135deg, #25d366 0%, #128c7e 100%);
+  color: white;
+  box-shadow: 0 8px 24px -8px rgba(37, 211, 102, 0.5);
+  transition: all 0.4s ease;
+}
+.btn-wa:hover { transform: translateY(-1px); box-shadow: 0 12px 28px -8px rgba(37, 211, 102, 0.6); }
+
+.event-card {
+  transition: transform 0.5s ease, box-shadow 0.5s ease;
+}
+.event-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 20px 40px -20px rgba(139, 30, 45, 0.3), 0 0 30px rgba(200, 162, 122, 0.2);
+}
+
+.script { font-family: var(--font-script); }
+.label-caps { font-family: var(--font-label); letter-spacing: 0.18em; text-transform: uppercase; }
+.arabic { font-family: var(--font-arabic); }
+
+.hero-glow { position: relative; }
+.hero-glow::before {
+  content: '';
+  position: absolute;
+  inset: -20% -10%;
+  background: radial-gradient(ellipse at center, rgba(200, 162, 122, 0.18), transparent 70%);
+  pointer-events: none;
+  z-index: -1;
+}
