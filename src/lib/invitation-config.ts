@@ -11,7 +11,7 @@ export const config = {
   eventDate: "Saturday, 19 september 2026",
   eventTime: "11:30 AM",
   eventDateISO: "2026-09-19T11:30:00",
-  venueName: "Galiyo Celebrations",
+  venueName: "GALIO CELEBRATIONS",
   venueAddress: "Pannicode, Kozhikkode, Kerala",
   mapsUrl: "https://maps.app.goo.gl/9PvuF7NS7YJzajyo7",
   closingBlessing: "May Allah bless this marriage with happiness, mercy, and endless love.",
