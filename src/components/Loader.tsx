@@ -7,12 +7,11 @@ export function Loader({ onDone }: { onDone: () => void }) {
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 0.8 }}
-      className="fixed inset-0 z-[100] flex items-center justify-center"
-      style={{ background: "#f5ece7" }}
+      className="fixed inset-0 z-[100] flex items-center justify-center bg-[var(--background)]"
       onAnimationComplete={() => setTimeout(onDone, 2600)}
     >
       <div className="flex flex-col items-center gap-6">
-        <svg width="140" height="140" viewBox="0 0 140 140" className="text-[#c8a27a]">
+        <svg width="140" height="140" viewBox="0 0 140 140" className="text-[var(--gold)]">
           <motion.circle
             cx="70" cy="70" r="60" fill="none" stroke="currentColor" strokeWidth="0.6"
             initial={{ pathLength: 0, opacity: 0 }}
@@ -35,14 +34,14 @@ export function Loader({ onDone }: { onDone: () => void }) {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 1.4, duration: 0.8 }}
-          className="label-caps text-xs text-[#7a5c56]"
+          className="label-caps text-xs text-[var(--muted-foreground)]"
         >
           Preparing your invitation
         </motion.div>
         {Array.from({ length: 12 }).map((_, i) => (
           <motion.div
             key={i}
-            className="absolute w-1 h-1 rounded-full bg-[#c8a27a]"
+            className="absolute w-1 h-1 rounded-full bg-[var(--gold)]"
             initial={{
               x: 0, y: 0, opacity: 0,
             }}
@@ -52,7 +51,7 @@ export function Loader({ onDone }: { onDone: () => void }) {
               opacity: [0, 1, 0],
             }}
             transition={{ duration: 2, delay: 0.5 + i * 0.1, repeat: Infinity, repeatDelay: 0.5 }}
-            style={{ boxShadow: "0 0 8px #c8a27a" }}
+            style={{ boxShadow: "0 0 8px var(--gold)" }}
           />
         ))}
       </div>

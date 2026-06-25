@@ -1,5 +1,6 @@
-import { useState } from "react";
-import { motion, AnimatePresence } from "motion/react";
+import { useState, useEffect, useRef } from "react";
+import { Moon, Sun } from "lucide-react";
+import { motion, AnimatePresence, useScroll, useTransform, useSpring } from "motion/react";
 import { config } from "@/lib/invitation-config";
 import { FontLoader } from "@/components/FontLoader";
 import { AnimatedBackground } from "@/components/AnimatedBackground";
@@ -11,18 +12,77 @@ import { CornerOrnaments } from "@/components/CornerOrnaments";
 
 export default function App() {
   const [showLoader, setShowLoader] = useState(true);
+  const [isDark, setIsDark] = useState(false);
+
+  useEffect(() => {
+    // Check system preference initially
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      setIsDark(true);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (isDark) {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+  }, [isDark]);
+
+  const { scrollYProgress } = useScroll();
+  const smoothProgress = useSpring(scrollYProgress, { damping: 40, stiffness: 400, mass: 0.1 });
+  
+  const [scrollRange, setScrollRange] = useState(0);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const updateRange = () => {
+      if (containerRef.current) {
+        const contentHeight = containerRef.current.scrollHeight;
+        const windowHeight = window.innerHeight;
+        setScrollRange(Math.max(0, contentHeight - windowHeight + windowHeight * 0.2));
+      }
+    };
+    updateRange();
+    // small delay to ensure fonts/images loaded
+    setTimeout(updateRange, 500);
+    window.addEventListener("resize", updateRange);
+    return () => window.removeEventListener("resize", updateRange);
+  }, []);
+
+  const cardY = useTransform(smoothProgress, [0, 1], [0, -scrollRange]);
+  const bgScale = useTransform(smoothProgress, [0, 1], [1, 1.4]);
+  const cardRotateX = useTransform(smoothProgress, [0, 1], [4, -4]);
+  const cardTranslateZ = useTransform(smoothProgress, [0, 1], [0, 80]);
 
   return (
     <>
-      <FontLoader />
-      <AnimatedBackground />
-      <FloatingPetals count={14} />
-      <AnimatePresence>
-        {showLoader && <Loader onDone={() => setShowLoader(false)} />}
-      </AnimatePresence>
+      <div className="h-[400vh] w-full" />
+      
+      <div className="fixed inset-0 overflow-hidden pointer-events-none" style={{ perspective: "1200px" }}>
+        {/* Background elements */}
+        <motion.div style={{ scale: bgScale }} className="absolute inset-[-20%] pointer-events-none z-0">
+          <AnimatedBackground />
+        </motion.div>
 
-      <main className="relative z-10 min-h-screen px-4 sm:px-6 py-8 sm:py-14 max-w-2xl mx-auto">
-        <div className="space-y-6 sm:space-y-8">
+        <motion.div style={{ scale: bgScale }} className="absolute inset-[-20%] pointer-events-none z-[1]">
+          <FloatingPetals count={14} />
+        </motion.div>
+
+        {/* Foreground 3D Container */}
+        <div className="absolute inset-0 z-10 pointer-events-auto flex justify-center items-start pt-[10vh]">
+          <motion.main 
+            ref={containerRef}
+            style={{ 
+              y: cardY,
+              rotateX: cardRotateX,
+              translateZ: cardTranslateZ,
+              transformStyle: "preserve-3d",
+              willChange: "transform"
+            }}
+            className="w-full max-w-2xl px-4 sm:px-6 relative"
+          >
+            <div className="space-y-6 sm:space-y-8 pb-[20vh]">
           {/* Hero parchment */}
           <section className="parchment-card p-6 sm:p-12">
             <CornerOrnaments />
@@ -32,7 +92,7 @@ export default function App() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 1.4, ease: [0.22, 1, 0.36, 1] }}
               >
-                <div className="arabic text-2xl sm:text-3xl text-[var(--crimson)] leading-relaxed">
+                <div className="arabic text-2xl sm:text-3xl text-[var(--arabic-color)] leading-relaxed">
                   {config.bismillah}
                 </div>
                 <div className="label-caps text-[10px] sm:text-xs text-[var(--muted-foreground)] mt-2">
@@ -63,7 +123,7 @@ export default function App() {
                 className="py-2"
               >
                 <h1
-                  className="font-display font-light text-[var(--crimson)]"
+                  className="font-display font-light text-[var(--names-color)]"
                   style={{ fontSize: "clamp(38px,9vw,72px)", lineHeight: 1.05 }}
                 >
                   {config.honoree1.name}
@@ -75,7 +135,7 @@ export default function App() {
                   {config.connector}
                 </div>
                 <h2
-                  className="font-display font-light text-[var(--crimson)]"
+                  className="font-display font-light text-[var(--names-color)]"
                   style={{ fontSize: "clamp(38px,9vw,72px)", lineHeight: 1.05 }}
                 >
                   {config.honoree2.name}
@@ -158,7 +218,7 @@ export default function App() {
                 {config.closingBlessing}
               </p>
               <div className="script text-4xl text-[var(--crimson)] mt-3">{config.closingWord}</div>
-              <div className="arabic text-2xl text-[var(--secondary)] mt-1">
+              <div className="arabic text-2xl text-[var(--arabic-color)] mt-1">
                 {config.closingArabic}
               </div>
               <div className="h-px w-16 mx-auto bg-[var(--secondary)] opacity-40 my-4" />
@@ -178,7 +238,24 @@ export default function App() {
             </div>
           </footer>
         </div>
-      </main>
+      </motion.main>
+      </div>
+      </div>
+      
+      {/* UI Overlay */}
+      <div className="fixed inset-0 pointer-events-none z-50">
+        <button 
+          onClick={() => setIsDark(!isDark)}
+          className="absolute top-4 right-4 p-2 rounded-full bg-[var(--card)] text-[var(--crimson)] border border-[var(--border)] shadow-md hover:scale-105 transition-transform pointer-events-auto cursor-pointer"
+          aria-label="Toggle Dark Mode"
+        >
+          {isDark ? <Sun size={20} /> : <Moon size={20} />}
+        </button>
+        <FontLoader />
+        <AnimatePresence>
+          {showLoader && <Loader onDone={() => setShowLoader(false)} />}
+        </AnimatePresence>
+      </div>
     </>
   );
 }
