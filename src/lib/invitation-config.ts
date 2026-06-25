@@ -1,6 +1,6 @@
 export const config = {
   eventLabel: "Wedding Ceremony",
-  hosts: "Mr. & Mrs. Mujeeb Rahman",
+  hosts: "Mr. Mujeeb Rahman",
   honoree1: { name: "Nafiya", subtitle: "Daughter of Mujeeb Rahman K & Aminath Suhara" },
   honoree2: { name: "Shahshad", subtitle: "Son of Firdous mp & Sameema Pt" },
   connector: "&",
