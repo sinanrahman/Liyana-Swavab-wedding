@@ -6,7 +6,7 @@ export const config = {
   connector: "&",
   bismillah: "بِسْمِ اللهِ الرَّحْمٰنِ الرَّحِيْمِ",
   bismillahTr: "In the Name of Allah, The Most Merciful, The Most Gracious",
-  bodyText: "joyfully invite you and your family to grace the wedding ceremony of their son",
+  bodyText: "joyfully invite you and your family to grace the wedding ceremony of their daughter",
   culturalPhrase: "In Sha Allah",
   eventDate: "Saturday, 19 september 2026",
   eventTime: "11:30 AM",
