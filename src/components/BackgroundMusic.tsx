@@ -8,7 +8,7 @@ export function BackgroundMusic() {
 
   useEffect(() => {
     if (audioRef.current) {
-      audioRef.current.volume = 0.2; // Play lightly in the background
+      audioRef.current.volume = 0.4; // Play lightly in the background
       // Attempt to autoplay immediately on mount
       audioRef.current.play().then(() => {
         setIsPlaying(true);

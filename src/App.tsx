@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { Moon, Sun } from "lucide-react";
-import { motion, AnimatePresence, useScroll, useTransform, useSpring } from "motion/react";
+import { motion, AnimatePresence, useScroll, useTransform } from "motion/react";
 import { config } from "@/lib/invitation-config";
 import { FontLoader } from "@/components/FontLoader";
 import { AnimatedBackground } from "@/components/AnimatedBackground";
@@ -31,7 +31,6 @@ export default function App() {
   }, [isDark]);
 
   const { scrollYProgress } = useScroll();
-  const smoothProgress = useSpring(scrollYProgress, { damping: 40, stiffness: 400, mass: 0.1 });
   
   const [scrollRange, setScrollRange] = useState(0);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -51,10 +50,10 @@ export default function App() {
     return () => window.removeEventListener("resize", updateRange);
   }, []);
 
-  const cardY = useTransform(smoothProgress, [0, 1], [0, -scrollRange]);
-  const bgScale = useTransform(smoothProgress, [0, 1], [1, 1.4]);
-  const cardRotateX = useTransform(smoothProgress, [0, 1], [4, -4]);
-  const cardTranslateZ = useTransform(smoothProgress, [0, 1], [0, 80]);
+  const cardY = useTransform(scrollYProgress, [0, 1], [0, -scrollRange]);
+  const bgScale = useTransform(scrollYProgress, [0, 1], [1, 1.4]);
+  const cardRotateX = useTransform(scrollYProgress, [0, 1], [4, -4]);
+  const cardTranslateZ = useTransform(scrollYProgress, [0, 1], [0, 80]);
 
   return (
     <>
