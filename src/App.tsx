@@ -9,6 +9,7 @@ import { Loader } from "@/components/Loader";
 import { Countdown } from "@/components/Countdown";
 import { Reveal } from "@/components/Reveal";
 import { CornerOrnaments } from "@/components/CornerOrnaments";
+import { BackgroundMusic } from "@/components/BackgroundMusic";
 
 export default function App() {
   const [showLoader, setShowLoader] = useState(true);
@@ -128,7 +129,7 @@ export default function App() {
                 >
                   {config.honoree1.name}
                 </h1>
-                <div className="text-xs text-[var(--muted-foreground)] italic mt-1">
+                <div className="text-xs text-[var(--muted-foreground)] italic mt-1 whitespace-pre-line">
                   {config.honoree1.subtitle}
                 </div>
                 <div className="script text-5xl sm:text-6xl text-[var(--secondary)] my-2">
@@ -140,7 +141,7 @@ export default function App() {
                 >
                   {config.honoree2.name}
                 </h2>
-                <div className="text-xs text-[var(--muted-foreground)] italic mt-1">
+                <div className="text-xs text-[var(--muted-foreground)] italic mt-1 whitespace-pre-line">
                   {config.honoree2.subtitle}
                 </div>
                 <div className="label-caps text-[11px] text-[var(--secondary)] mt-4 tracking-[0.3em]">
@@ -251,6 +252,7 @@ export default function App() {
         >
           {isDark ? <Sun size={20} /> : <Moon size={20} />}
         </button>
+        <BackgroundMusic />
         <FontLoader />
         <AnimatePresence>
           {showLoader && <Loader onDone={() => setShowLoader(false)} />}

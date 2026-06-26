@@ -1,8 +1,8 @@
 export const config = {
   eventLabel: "Wedding Ceremony",
   hosts: "Mr. Mujeeb Rahman",
-  honoree1: { name: "Nafiya", subtitle: "Daughter of Mujeeb Rahman K & Aminath Suhara" },
-  honoree2: { name: "Shahshad", subtitle: "Son of Firdous mp & Sameema Pt" },
+  honoree1: { name: "Nafiya", subtitle: "Daughter of Mujeeb Rahman K & Aminath Suhara\nkothayanchalil" },
+  honoree2: { name: "Shahshad", subtitle: "Son of Firdous mp & Sameema Pt\nkuttikkatt thodi" },
   connector: "&",
   bismillah: "بِسْمِ اللهِ الرَّحْمٰنِ الرَّحِيْمِ",
   bismillahTr: "In the Name of Allah, The Most Merciful, The Most Gracious",
