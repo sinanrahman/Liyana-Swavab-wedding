@@ -1,6 +1,6 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { Moon, Sun } from "lucide-react";
-import { motion, AnimatePresence, useScroll, useTransform } from "motion/react";
+import { motion, AnimatePresence } from "motion/react";
 import { config } from "@/lib/invitation-config";
 import { FontLoader } from "@/components/FontLoader";
 import { AnimatedBackground } from "@/components/AnimatedBackground";
@@ -30,58 +30,19 @@ export default function App() {
     }
   }, [isDark]);
 
-  const { scrollYProgress } = useScroll();
-  
-  const [scrollRange, setScrollRange] = useState(0);
-  const containerRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const updateRange = () => {
-      if (containerRef.current) {
-        const contentHeight = containerRef.current.scrollHeight;
-        const windowHeight = window.innerHeight;
-        setScrollRange(Math.max(0, contentHeight - windowHeight + windowHeight * 0.2));
-      }
-    };
-    updateRange();
-    // small delay to ensure fonts/images loaded
-    setTimeout(updateRange, 500);
-    window.addEventListener("resize", updateRange);
-    return () => window.removeEventListener("resize", updateRange);
-  }, []);
-
-  const cardY = useTransform(scrollYProgress, [0, 1], [0, -scrollRange]);
-  const bgScale = useTransform(scrollYProgress, [0, 1], [1, 1.4]);
-  const cardRotateX = useTransform(scrollYProgress, [0, 1], [4, -4]);
-  const cardTranslateZ = useTransform(scrollYProgress, [0, 1], [0, 80]);
-
   return (
     <>
-      <div className="h-[400vh] w-full" />
-      
-      <div className="fixed inset-0 overflow-hidden pointer-events-none" style={{ perspective: "1200px" }}>
-        {/* Background elements */}
-        <motion.div style={{ scale: bgScale }} className="absolute inset-[-20%] pointer-events-none z-0">
+      <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
+        <div className="absolute inset-[-20%] pointer-events-none">
           <AnimatedBackground />
-        </motion.div>
-
-        <motion.div style={{ scale: bgScale }} className="absolute inset-[-20%] pointer-events-none z-[1]">
-          <FloatingPetals count={14} />
-        </motion.div>
-
-        {/* Foreground 3D Container */}
-        <div className="absolute inset-0 z-10 pointer-events-auto flex justify-center items-start pt-[10vh]">
-          <motion.main 
-            ref={containerRef}
-            style={{ 
-              y: cardY,
-              rotateX: cardRotateX,
-              translateZ: cardTranslateZ,
-              transformStyle: "preserve-3d",
-              willChange: "transform"
-            }}
-            className="w-full max-w-2xl px-4 sm:px-6 relative"
-          >
+        </div>
+        <div className="absolute inset-[-20%] pointer-events-none z-[1]">
+          <FloatingPetals count={45} />
+        </div>
+      </div>
+      
+      <div className="relative z-10 flex justify-center items-start pt-[10vh]">
+        <main className="w-full max-w-2xl px-4 sm:px-6 relative">
             <div className="space-y-6 sm:space-y-8 pb-[20vh]">
           {/* Hero parchment */}
           <section className="parchment-card p-6 sm:p-12">
@@ -238,8 +199,7 @@ export default function App() {
             </div>
           </footer>
         </div>
-      </motion.main>
-      </div>
+        </main>
       </div>
       
       {/* UI Overlay */}
