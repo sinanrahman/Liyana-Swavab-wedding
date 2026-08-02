@@ -6,12 +6,15 @@ export function BackgroundMusic() {
   const [isPlaying, setIsPlaying] = useState(false);
   const audioRef = useRef<HTMLAudioElement>(null);
 
+  const [userInteracted, setUserInteracted] = useState(false);
+
   useEffect(() => {
     if (audioRef.current) {
       audioRef.current.volume = 0.4; // Play lightly in the background
       // Attempt to autoplay immediately on mount
       audioRef.current.play().then(() => {
         setIsPlaying(true);
+        setUserInteracted(true);
       }).catch(err => {
         console.log("Autoplay blocked by browser. Waiting for interaction.", err);
       });
@@ -19,6 +22,7 @@ export function BackgroundMusic() {
   }, []);
 
   const togglePlay = () => {
+    setUserInteracted(true);
     if (audioRef.current) {
       if (isPlaying) {
         audioRef.current.pause();
@@ -31,6 +35,8 @@ export function BackgroundMusic() {
 
   // Autoplay workaround: start music on first user interaction
   useEffect(() => {
+    if (userInteracted) return;
+
     const handleFirstInteraction = () => {
       if (audioRef.current && !isPlaying) {
         audioRef.current.play().then(() => {
@@ -39,21 +45,19 @@ export function BackgroundMusic() {
           console.log("Autoplay blocked:", err);
         });
       }
-      document.removeEventListener("click", handleFirstInteraction);
-      document.removeEventListener("touchstart", handleFirstInteraction);
-      document.removeEventListener("scroll", handleFirstInteraction);
+      setUserInteracted(true);
     };
 
     document.addEventListener("click", handleFirstInteraction);
-    document.addEventListener("touchstart", handleFirstInteraction);
-    document.addEventListener("scroll", handleFirstInteraction);
+    document.addEventListener("touchstart", handleFirstInteraction, { passive: true });
+    document.addEventListener("scroll", handleFirstInteraction, { passive: true });
 
     return () => {
       document.removeEventListener("click", handleFirstInteraction);
       document.removeEventListener("touchstart", handleFirstInteraction);
       document.removeEventListener("scroll", handleFirstInteraction);
     };
-  }, [isPlaying]);
+  }, [isPlaying, userInteracted]);
 
   return (
     <>
