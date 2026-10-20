@@ -125,7 +125,7 @@ export default function App() {
                     With great joy, we invite you to share in this blessed day.
                   </p>
                   <div className="mt-8 font-display font-light text-2xl sm:text-3xl text-[var(--names-color)] tracking-wide">
-                    <Typewriter text={`${config.honoree1.name} | ${config.honoree2.name}`} delay={1500} speed={150} />
+                    <Typewriter text={config.compliments} delay={1500} speed={150} />
                   </div>
                 </motion.div>
               </div>

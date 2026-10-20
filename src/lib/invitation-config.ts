@@ -14,6 +14,7 @@ export const config = {
     name: "Mohammed Swavab",
     subtitle: "Son of Mr. Moosakutty Manammal\nMoonniyur",
   },
+  compliments: "Hadiya | Hamdan | Izrin",
   connector: "&",
   bismillah: "بِسْمِ اللهِ الرَّحْمٰنِ الرَّحِيْمِ",
   bismillahTr: "In the Name of Allah, The Most Merciful, The Most Gracious",
