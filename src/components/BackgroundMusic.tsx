@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { Volume2, VolumeX } from "lucide-react";
-import weddingAudio from "@/audio/wedding.mp3";
+import weddingAudio from "@/audio/wedding-song.mp3";
 
 export function BackgroundMusic() {
   const [isPlaying, setIsPlaying] = useState(false);

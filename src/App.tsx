@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Moon, Sun } from "lucide-react";
+import { Moon, Sun, Phone } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 import { config } from "@/lib/invitation-config";
 import { FontLoader } from "@/components/FontLoader";
@@ -70,10 +70,15 @@ export default function App() {
                   <div className="label-caps text-xs text-[var(--secondary)] tracking-[0.3em]">
                     {config.eventLabel}
                   </div>
-                  <div className="mt-3 font-display text-base sm:text-lg text-[var(--muted-foreground)] italic">
+                  <div className="mt-3 font-display text-base sm:text-xl text-[var(--names-color)] font-medium">
                     {config.hosts}
                   </div>
-                  <div className="mt-1 text-sm text-[var(--muted-foreground)]">
+                  {config.hostAddress && (
+                    <div className="label-caps text-[10px] sm:text-xs text-[var(--secondary)] mt-1 tracking-wider">
+                      {config.hostAddress}
+                    </div>
+                  )}
+                  <div className="mt-2 text-sm text-[var(--muted-foreground)]">
                     {config.bodyText}
                   </div>
                 </motion.div>
@@ -120,7 +125,7 @@ export default function App() {
                     With great joy, we invite you to share in this blessed day.
                   </p>
                   <div className="mt-8 font-display font-light text-2xl sm:text-3xl text-[var(--names-color)] tracking-wide">
-                    <Typewriter text="Nasim | Nafla" delay={1500} speed={150} />
+                    <Typewriter text={`${config.honoree1.name} | ${config.honoree2.name}`} delay={1500} speed={150} />
                   </div>
                 </motion.div>
               </div>
@@ -175,6 +180,31 @@ export default function App() {
               </div>
             </Reveal>
 
+            {/* Residence & Contact RSVP */}
+            <Reveal>
+              <section className="parchment-card p-6 sm:p-8 text-center">
+                <CornerOrnaments />
+                <div className="label-caps text-[10px] text-[var(--secondary)] tracking-[0.25em] mb-2">
+                  Residence & Contact
+                </div>
+                <div className="font-display text-lg sm:text-xl text-[var(--crimson)] font-medium">
+                  {config.hostAddress}
+                </div>
+                <div className="flex flex-wrap items-center justify-center gap-3 mt-4">
+                  {config.contactNumbers?.map((contact, idx) => (
+                    <a
+                      key={idx}
+                      href={`tel:${contact.number}`}
+                      className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full border border-[var(--border)] bg-[var(--card)] text-sm sm:text-base font-display text-[var(--names-color)] hover:border-[var(--secondary)] hover:scale-105 transition-all shadow-sm"
+                    >
+                      <Phone size={15} className="text-[var(--secondary)]" />
+                      <span className="tracking-wider">{contact.formatted}</span>
+                    </a>
+                  ))}
+                </div>
+              </section>
+            </Reveal>
+
             {/* Closing */}
             <Reveal>
               <section className="parchment-card p-8 text-center">
@@ -196,7 +226,7 @@ export default function App() {
             {/* Footer */}
             <footer className="text-center pt-2 pb-6">
               <div className="font-['Playfair_Display'] italic text-2xl text-[var(--secondary)]">
-                {config.honoree1.name.charAt(0).toUpperCase() + config.honoree1.name.slice(1)} {config.connector} {config.honoree2.name}
+                {config.honoree1.name} {config.connector} {config.honoree2.name}
               </div>
               <div className="label-caps text-[10px] text-[var(--muted-foreground)] mt-1 tracking-[0.3em]">
                 {config.eventDate}
